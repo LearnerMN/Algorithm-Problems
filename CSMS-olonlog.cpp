@@ -1,0 +1,54 @@
+//http://www.spoj.com/CSMS/problems/ULS11204/
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cmath>
+#include <queue>
+#include <cstring>
+#include <sstream>
+#include <map>
+#include <climits>
+#include <cstdio>
+
+using namespace std;
+
+template<typename T> string toStr(T x) { stringstream ss; ss << x; return ss.str(); }
+template<typename T> T pows(T base, T exp,T mod){ T res = 1; while (exp > 0){ if (exp % 2 == 1) res = (res * base)%mod; exp = exp >> 1; base = (base * base)%mod; } return res; }
+//shortcuts
+#define all(_xx) _xx.begin(), _xx.end()
+
+#define gcd __gcd
+#define lcm(a,b) a*b/gcd(a,b)
+
+#define xx first
+#define yy second
+#define pb push_back
+#define mp make_pair
+
+//print
+#define pt(st) (cout<<(st)<<endl);
+
+// loop
+#define fr(i,n) for (int i=0; i<(n); i++)
+#define frs(i, a, b) for( int i = (a); i < (b); i++ )
+#define foreach(it,c) for(__typeof((c).begin()) it=(c).begin();it!=(c).end();++it)
+const double eps = 1e-9;
+#define eq(x, y) (abs((x)-(y))<eps)
+#define sqr(x) ((x)*(x))
+
+long long v1[3000],v2[3000][3000];
+int main(){ 
+	int n,m;
+	scanf("%d%d",&m,&n);
+    frs (i,1,m+1)
+        v1[i] = pows(i,i,n);
+    v2[m+1][0] = 1;
+    for(int k = m ; k >= 1 ; k --)
+        fr(j,n){
+            v2[k][j] += v2[k+1][j];
+            v2[k][j] += v2[k+1][(j+v1[k])%n];
+            v2[k][j] %= 10000000000LL;
+        }
+    cout<<v2[1][0] - 1<<endl;
+	return 0;
+}
